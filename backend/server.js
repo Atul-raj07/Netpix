@@ -1,9 +1,18 @@
 import express from 'express'
 
+import authRoute from "./routes/auth.route.js"
+import { envVars } from './config/envVars.js'
+import { connectDB } from './config/dbconnection.js'
+
+
 const app = express()
 
-app.get('/', (req, res) => {
-    res.send("Welcome to my server!")
-})
+app.use(express.json())
 
-app.listen(3000)
+
+app.use("/api/v1/auth", authRoute )
+
+app.listen(envVars.PORT,()=>{
+    console.log("logged in",envVars.PORT)
+    connectDB()
+})
