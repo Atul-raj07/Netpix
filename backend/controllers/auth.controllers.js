@@ -86,9 +86,9 @@ return res.status(201).json({
     if (!email || !password) return res.status(403).json({ success: false, message: "all fields are required" });
 
     const user = await User.findOne({ email: email})
-    if(!user) return res.status(500).json({ success: false, message: "no user found" });
-    const passwordCheck = bcryptjs.compare(user.password, password)
-    if (!passwordCheck) return res.status(500).json({success: false, message: "password incorrect" });
+    if(!user) return res.status(400).json({ success: false, message: "no user found" });
+    const passwordCheck = await bcryptjs.compare( password,user.password)
+    if (!passwordCheck) return res.status(400).json({success: false, message: "password incorrect" });
     generateToken(user,res)
     res.status(200).json({ success: true, message:"user logged in"})
 }
