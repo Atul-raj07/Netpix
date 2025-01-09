@@ -50,18 +50,25 @@ export async function movieTrailers(req, res) {
     }
     export async function similarMovie(req, res) {
       try {
-          const { id } = req.params; // Proper destructuring
-          const data = await fetchfromTMDB(`api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`);
+          const { id } = req.params; 
+          const data = await fetchfromTMDB(`https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`);
           
           if (!data || !data.results) {
               return res.status(404).json({ error: "Similar movies not found" });
           }
   
-          res.json({ content: data.results }); // Sending only the relevant part
+          res.json({ content: data.results }); 
       } catch (error) {
           console.error("Error fetching similar movies:", error.message);
           res.status(500).json({ error: "Failed to fetch similar movies" });
       }
+  }
+  export async function movieCategory(req,res) {
+    const {category} = req.params
+    const data = await fetchfromTMDB(``)
+
+    res.json({ category: data.result});
+    
   }
   
   
